@@ -11,49 +11,43 @@ import pygame, random
 from random import randrange
 
 
-def create_parts(n):
-    parts = []
+def create_body_part(n):
+    bodyparts = []
     for i in range(n):
         x = randrange(0, 500)
         y = randrange(0, 500)
         w,h = 30, 30
 
-        new_part = GF.Part((x,y),(w,h))
+        new_bodypart = GF.BodyPart((x,y),(w,h))
 
-        parts.append(new_part)
-
-    return parts
+    bodyparts.append(new_bodypart)
 
 
-def get_color_range(k_r=1, k_g=5, k_b=1/80):
+
+colA = [(r,g,b) for r,g,b in zip(range(0))]
+
+def get_color_range():
+
     colA = []
 
-    r_range = range(40,241)
-    g_range = range(40,241)
-    b_range = range(40,241)
+    r_range = range(40,240)
+    g_range = range(40,240)
+    b_range = range(40,240)
 
     for r,g,b in zip(r_range, g_range, b_range):
-        colA.append((r//k_r, g//k_g, 1//k_b))
+        colA.append((r, g//5, 80))
 
     return colA
 
 
 #tile1 = GF.Tile((4,4), (200, 30))
 
-colA = get_color_range()
-colB = get_color_range(10, 3, 2)
-
 animated_tiles = []
 
 
-nearest_parts = create_parts(7)
+nearest_parts = create_body_part(7)
 
 pos = 0,0
-
-selection = None
-
-DRAWLINE = False
-
 
 questions = [
     {'title': 1, 'answers': [1,2,3]},

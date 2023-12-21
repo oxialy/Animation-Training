@@ -32,12 +32,13 @@ def draw_test(win):
 def draw_screen(win):
     win.fill(bg_color)
 
+    draw_elem(win, gv.nearest_parts)
 
+    if gv.DRAWLINE:
+        draw_lines(win, gv.pos, gv.nearest_parts)
 
     #draw_grid(dv.GRID_SURF, gv.grid, sett.cell_size)
 
-    test_rect = pygame.Rect(80,300,50,50)
-    pygame.draw.rect(win, colors['blue1'], test_rect)
 
     draw_test(win)
 
@@ -46,6 +47,13 @@ def draw_tiles(win, tiles):
     for tile in tiles:
         tile.draw(win)
 
+def draw_elem(win, elems):
+    for elem in elems:
+        elem.draw(win)
+
+def draw_lines(win, pos, bodyparts):
+    for bodypart in bodyparts:
+        bodypart.draw_line(win, pos)
 
 def centered_rect(rect):
     x, y, w, h = rect

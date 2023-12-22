@@ -32,15 +32,10 @@ def draw_test(win):
 def draw_screen(win):
     win.fill(bg_color)
 
-    draw_elem(win, gv.nearest_parts)
+    draw_elem(win, gv.nearest_links)
 
     if gv.DRAWLINE:
-        draw_lines(win, gv.pos, gv.nearest_parts)
-
-    #draw_grid(dv.GRID_SURF, gv.grid, sett.cell_size)
-
-
-    draw_test(win)
+        draw_lines(win, gv.pos, gv.nearest_links)
 
 
 def draw_tiles(win, tiles):
@@ -51,9 +46,9 @@ def draw_elem(win, elems):
     for elem in elems:
         elem.draw(win)
 
-def draw_lines(win, pos, bodyparts):
-    for bodypart in bodyparts:
-        bodypart.draw_line(win, pos)
+def draw_lines(win, pos, links):
+    for link in links:
+        link.draw_line(win, pos)
 
 def centered_rect(rect):
     x, y, w, h = rect

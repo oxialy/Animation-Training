@@ -11,18 +11,20 @@ import pygame, random
 from random import randrange
 
 
-def create_parts(n):
-    parts = []
+def create_links(n):
+    links = []
     for i in range(n):
         x = randrange(0, 500)
         y = randrange(0, 500)
         w,h = 30, 30
+        angle = 0
+        type = 'body'
 
-        new_part = GF.Part((x,y),(w,h))
+        new_link = GF.Link((x,y),(w,h), angle, type)
 
-        parts.append(new_part)
+        links.append(new_link)
 
-    return parts
+    return links
 
 
 def get_color_range(k_r=1, k_g=5, k_b=1/80):
@@ -40,13 +42,15 @@ def get_color_range(k_r=1, k_g=5, k_b=1/80):
 
 #tile1 = GF.Tile((4,4), (200, 30))
 
-colA = get_color_range()
+colA = get_color_range(1.6)
 colB = get_color_range(10, 3, 2)
 
 animated_tiles = []
 
 
-nearest_parts = create_parts(7)
+nearest_links = create_links(7)
+
+body = GF.create_body(10)
 
 pos = 0,0
 

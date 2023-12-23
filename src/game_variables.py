@@ -20,7 +20,7 @@ def create_links(n):
         angle = 0
         type = 'body'
 
-        new_link = GF.Link((x,y),(w,h), angle, type)
+        new_link = GF.Link((x,y),(w,h), angle, type, i)
 
         links.append(new_link)
 

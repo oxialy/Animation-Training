@@ -28,14 +28,24 @@ def draw_test(win):
     pygame.draw.rect(win, colors['grey1'], r0,1)
     pygame.draw.rect(win, colors['seagreen1'], r2,1)
 
+    t = gv.body[3]
+    t2 = t.left_link
+    t3 = t.right_link
+
+    pygame.draw.ellipse(win, colors['orange1'], (t2.pos, (5,5)))
+    pygame.draw.ellipse(win, colors['orange1'], (t3.pos, (5,5)))
+
 
 def draw_screen(win):
     win.fill(bg_color)
 
     draw_elem(win, gv.nearest_links)
+    draw_elem(win, gv.body)
 
     if gv.DRAWLINE:
         draw_lines(win, gv.pos, gv.nearest_links)
+
+    draw_test(win)
 
 
 def draw_tiles(win, tiles):

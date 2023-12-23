@@ -28,14 +28,32 @@ def draw_test(win):
     pygame.draw.rect(win, colors['grey1'], r0,1)
     pygame.draw.rect(win, colors['seagreen1'], r2,1)
 
+    t = gv.body[3]
+    t2 = t.left_link
+    t3 = t.right_link
+
+    pygame.draw.ellipse(win, colors['orange1'], (t2.pos, (5,5)))
+    pygame.draw.ellipse(win, colors['orange1'], (t3.pos, (5,5)))
+
+    write_text(win, gv.pos, (500,50))
+
+    if gv.body[-1].is_clicked(gv.pos):
+        write_text(win, gv.body[-1], (550, 120))
+
+    b2 = gv.body[-2]
+
 
 def draw_screen(win):
     win.fill(bg_color)
 
     draw_elem(win, gv.nearest_links)
+    draw_elem(win, gv.body)
 
     if gv.DRAWLINE:
         draw_lines(win, gv.pos, gv.nearest_links)
+
+    gv.cursor.draw(win)
+    draw_test(win)
 
 
 def draw_tiles(win, tiles):
@@ -49,6 +67,14 @@ def draw_elem(win, elems):
 def draw_lines(win, pos, links):
     for link in links:
         link.draw_line(win, pos)
+
+def write_text(win, data, pos):
+    font = pygame.font.SysFont('arial', 20)
+    text_surf = font.render(str(data), 1, 'grey')
+
+    win.blit(text_surf, pos)
+
+
 
 def centered_rect(rect):
     x, y, w, h = rect

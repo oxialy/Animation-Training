@@ -11,6 +11,7 @@ import pygame, random
 from pygame.locals import *
 from random import choice, randrange
 
+pygame.init()
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -37,13 +38,35 @@ def main():
                 if event.key == K_SPACE:
                     pass
 
+            if pygame.mouse.get_pressed()[0]:
+                if selection:
+                    GV.cursor.start = selection.pos
+                    GV.cursor.end = GV.pos
+                    GV.cursor.set_force()
+
+                    selection.vel += GV.cursor.force
+
+                    pygame.draw.rect(WIN, 'grey', (20,20, 20,20))
+
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #GV.DRAWLINE = not GV.DRAWLINE
-                pass
+                if selection:
+                    selection.selected = False
+
+                selection = GF.check_selected(body, GV.pos)
+
+                if selection:
+                    selection.selected = True
+                    GV.cursor.set_pos(selection.pos)
+
+                    b2 = body[-2]
+                    b2.count = 0
+                    print(b2)
 
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)
-        GF.update_all(body)
+        GF.update_all(GV.body)
 
         GV.nearest_links = GF.sort_elems(GV.nearest_links)
 

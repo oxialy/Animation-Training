@@ -20,7 +20,7 @@ def create_links(n):
         angle = 0
         type = 'body'
 
-        new_link = GF.Link((x,y),(w,h), angle, type)
+        new_link = GF.Link((x,y),(w,h), angle, type, i)
 
         links.append(new_link)
 
@@ -50,7 +50,8 @@ animated_tiles = []
 
 nearest_links = create_links(7)
 
-body = GF.create_body(10)
+body = GF.create_body(5)
+cursor = GF.Cursor()
 
 pos = 0,0
 

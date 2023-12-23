@@ -3,6 +3,7 @@ from src import game_variables as GV
 
 from src import settings as sett
 from src.settings import WIDTH, HEIGHT, clock, FPS
+from src.game_variables import body, nearest_links
 
 from src.drawing_functions import draw_screen
 
@@ -38,28 +39,13 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #GV.DRAWLINE = not GV.DRAWLINE
-
-                #rand_part = choice(GV.nearest_parts)
-                #rand_part.pos = GV.pos
-
-                if selection:
-                    selection.selected = False
-
-                selection = GV.nearest_parts[0]
-                selection.selected = True
-                selection.angle = GF.get_angle(selection.pos, GV.pos)
-                size = selection.size[0]
-
-                new_part_pos = GF.get_point_from_angle(selection.pos, selection.angle, size)
-
-                new_part = (GF.Part(new_part_pos, (size,size)))
-
-                GV.nearest_parts.append(new_part)
+                pass
 
 
-        GF.update_all_parts(GV.nearest_parts, GV.pos, GV.colA, GV.colB)
+        GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)
+        GF.update_all(body)
 
-        GV.nearest_parts = GF.sort_elems(GV.nearest_parts)
+        GV.nearest_links = GF.sort_elems(GV.nearest_links)
 
         pygame.display.update()
         clock.tick(FPS)

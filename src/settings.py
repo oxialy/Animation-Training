@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 
 
 BODY_SIZE = 30
+FORCE_FACTOR = 30
 
 
 

@@ -1,5 +1,6 @@
 from src import drawing_variables as dv
 from src import settings as sett
+from src import msc
 
 from .drawing_variables import colors
 
@@ -18,10 +19,10 @@ class Link:
 
         self.vel = Vector2(0, 0)
 
-        self.deceleration = 0.97
-        self.max_vel = 1
+        self.deceleration = 0.94
+        self.max_vel = 2
 
-        self.col = '#808080'
+        self.col = colors['seagreen1']
         self.col2 = '#909000'
 
         self.left_link = None
@@ -45,16 +46,34 @@ class Link:
         y = self.pos[1] - h // 2
 
         pygame.draw.ellipse(win, self.col, (x,y,w,h), 8)
-        pygame.draw.ellipse(win, self.col2, (self.pos, (2,2)))
+        #pygame.draw.ellipse(win, self.col2, (self.pos, (2,2)))
 
         if self.selected:
-            pygame.draw.ellipse(win, colors['grey1'], (x,y,w,h), 1)
+            self.draw_right(win)
 
-        if self.left_link and self.right_link:
-            x, y = get_average_point(self.left_link.pos, self.right_link.pos)
-            w, h = 3, 3
+            pygame.draw.ellipse(win, colors['cyan1'], (x,y,w,h), 0)
 
-            pygame.draw.ellipse(win, colors['red1'], (x,y,w,h))
+            if self.left_link and self.right_link:
+                x, y = get_average_point(self.left_link.pos, self.right_link.pos)
+                w, h = 6,6
+
+                rect = msc.centered_rect((x,y,w,h))
+
+                pygame.draw.ellipse(win, colors['red1'], rect)
+
+    def draw_left(self, win):
+        x,y = self.left_link.pos
+        w,h = 5, 5
+
+        rect = msc.centered_rect((x,y,w,h))
+        pygame.draw.ellipse(win, colors['orange1'], rect)
+
+    def draw_right(self, win):
+        x,y = self.right_link.pos
+        w,h = 5, 5
+
+        rect = msc.centered_rect((x,y,w,h))
+        pygame.draw.ellipse(win, colors['purple1'], rect)
 
 
     def draw_line(self, win, pos):
@@ -86,17 +105,22 @@ class Link:
             B = self.pos
             rad = self.size[0]
 
-            force = get_force(A, B, rad, 30)
+            force = get_force(A, B, rad, 80)
 
             self.right_link.pos += force
 
     def apply_force(self):
-        if self.type == 'body':
+        if self.type in ['body', 'tail']:
             A = self.pos
-            B = get_average_point(self.left_link.pos, self.right_link.pos)
             rad = 0
 
-            force = get_force(A, B, rad, 30)
+            if self.type == 'body':
+                B = get_average_point(self.left_link.pos, self.right_link.pos)
+            elif self.type == 'tail':
+                B = self.left_link.pos
+                rad = self.size[0]
+
+            force = get_force(A, B, rad, 10)
 
             self.vel += force
 
@@ -118,7 +142,7 @@ class Link:
         x, y = self.pos
         w, h = self.size
 
-        rect = pygame.Rect(x,y,w,h)
+        rect = msc.centered_rect((x,y,w,h))
 
         if rect.collidepoint(pos):
             return True
@@ -132,9 +156,9 @@ class Link:
         self.col = colA[color_index]
         self.col2 = colB[color_index]
 
-
     def update_distance(self, pos):
         self.distance_from_mouse = get_dist(self.pos, pos)
+
 
 
 class Cursor:
@@ -146,9 +170,13 @@ class Cursor:
         self.force = Vector2(0, 0)
 
         self.color = colors['purple1']
+        self.col2 = colors['lightblue1']
 
     def draw(self, win):
         pygame.draw.line(win, self.color, self.start, self.end)
+        pygame.draw.circle(win, self.col2, self.start, 3)
+        pygame.draw.circle(win, self.col2, self.end, 3)
+
 
     def set_force(self):
         self.force = get_force(self.start, self.end, 0, 200)
@@ -215,6 +243,15 @@ def get_average_point(A, B):
 
     return (x1 + x2) / 2, (y1 + y2) /2
 
+
+def get_tail_resting_pos(body):
+    tail = body[-1]
+    left_link = tail.left_link
+    rad = tail.size[0]
+
+    force = get_force(tail.pos, left_link.pos, rad)
+
+
 def get_force(A, B, rad, force_factor=30):
     dist = get_dist(A, B)
     angle = get_angle(A, B)
@@ -222,8 +259,8 @@ def get_force(A, B, rad, force_factor=30):
     force_x = cos(angle) * (dist - rad) / force_factor
     force_y = sin(angle) * (dist - rad) / force_factor
 
-    force_x = min(0.4, force_x)
-    force_y = min(0.4, force_y)
+    force_x = min(1.5, force_x)
+    force_y = min(1.7, force_y)
 
     return Vector2(force_x, force_y)
 
@@ -251,11 +288,11 @@ def check_selected(links, pos):
             link.selected = True
             return link
 
-def create_body(n):
+def create_body(n, pos=(500,80), size=15):
     body = []
 
-    head_pos = 500, 80
-    w, h = sett.LINK_SIZE, sett.LINK_SIZE
+    head_pos = pos
+    w, h = size, size
     type = 'body'
 
     for i in range(n):

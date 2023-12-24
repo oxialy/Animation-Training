@@ -10,37 +10,21 @@ import random
 from random import randrange, choice
 
 
-class Staff:
-    def __init__(self, pos):
-        self.pos = pos
 
-    def draw(self, win):
-
-        pygame.draw.line(win, colors['lightgrey'], )
-
-
-def draw_test(win):
-    CX, CY = sett.WIDTH//2, sett.HEIGHT//2
-    r1 = (CX, 100, 200, 30)
-    r0 = centered_rect(r1)
-    r2 = centered_rect((CX, 200, 200, 30))
-
-    pygame.draw.rect(win, colors['grey1'], r0,1)
-    pygame.draw.rect(win, colors['seagreen1'], r2,1)
-
+def draw_test(win, body):
     t = gv.body[3]
     t2 = t.left_link
     t3 = t.right_link
 
-    pygame.draw.ellipse(win, colors['orange1'], (t2.pos, (5,5)))
-    pygame.draw.ellipse(win, colors['orange1'], (t3.pos, (5,5)))
+    #pygame.draw.ellipse(win, colors['orange1'], (t2.pos, (5,5)))
+    #pygame.draw.ellipse(win, colors['orange1'], (t3.pos, (5,5)))
 
-    write_text(win, gv.pos, (500,50))
+    write_text(win, gv.pos, (sett.WIDTH - 80, 20), sett.FONT15)
 
-    if gv.body[-1].is_clicked(gv.pos):
-        write_text(win, gv.body[-1], (550, 120))
+    write_text(win, gv.pos, (sett.WIDTH - 80, 20), sett.FONT15)
 
-    b2 = gv.body[-2]
+    for i, link in enumerate(body):
+        write_text(win, link.type, (630, 80 + i * 13), sett.FONT12)
 
 
 def draw_screen(win):
@@ -48,12 +32,24 @@ def draw_screen(win):
 
     draw_elem(win, gv.nearest_links)
     draw_elem(win, gv.body)
+    draw_elem(win, gv.body2)
 
     if gv.DRAWLINE:
         draw_lines(win, gv.pos, gv.nearest_links)
 
     gv.cursor.draw(win)
-    draw_test(win)
+    draw_test(win, gv.body)
+
+    pygame.draw.circle(win, colors['grey1'], (600, 527), 3)
+    pygame.draw.circle(win, colors['grey1'], (600, 557), 3)
+    if gv.selection:
+        sel = gv.selection
+
+        write_text(win, sel.left_link, (30, 520), sett.FONT12)
+        write_text(win, sel.right_link, (30, 550), sett.FONT12)
+
+        sel.draw_left(win)
+        sel.draw_right(win)
 
 
 def draw_tiles(win, tiles):
@@ -68,8 +64,7 @@ def draw_lines(win, pos, links):
     for link in links:
         link.draw_line(win, pos)
 
-def write_text(win, data, pos):
-    font = pygame.font.SysFont('arial', 20)
+def write_text(win, data, pos, font=sett.FONT20):
     text_surf = font.render(str(data), 1, 'grey')
 
     win.blit(text_surf, pos)

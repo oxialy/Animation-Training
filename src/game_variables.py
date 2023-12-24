@@ -50,7 +50,9 @@ animated_tiles = []
 
 nearest_links = create_links(7)
 
-body = GF.create_body(5)
+body = GF.create_body(sett.BODY_LENGTH)
+body2 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+
 cursor = GF.Cursor()
 
 pos = 0,0

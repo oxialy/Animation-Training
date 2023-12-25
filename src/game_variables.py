@@ -26,6 +26,20 @@ def create_links(n):
 
     return links
 
+def unpack_bodies(bodies):
+    links = []
+    for body in bodies:
+        for link in body:
+            links.append(link)
+    return links
+
+def unpack_fields(fields):
+    winds = []
+    for field in fields:
+        for wind in field.field:
+            winds.append(wind)
+    return winds
+
 
 def get_color_range(k_r=1, k_g=5, k_b=1/80):
     colA = []
@@ -39,10 +53,17 @@ def get_color_range(k_r=1, k_g=5, k_b=1/80):
 
     return colA
 
+def dim_color(fields):
+    k = 1.2
+    for field in fields:
+        for wind in field.field:
+            r, g, b = wind.col
+            wind.col = r / k, g / k, b / k
+
 
 #tile1 = GF.Tile((4,4), (200, 30))
 
-colA = get_color_range(1.6)
+colA = get_color_range(1.8, 4, 1/110)
 colB = get_color_range(10, 3, 2)
 
 animated_tiles = []
@@ -50,10 +71,48 @@ animated_tiles = []
 
 nearest_links = create_links(7)
 
-body = GF.create_body(5)
+all_links = []
+all_winds = []
+
+body = GF.create_body(sett.BODY_LENGTH)
+body2 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body3 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body4 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body5 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body6 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+
+grass_field = [body3, body4, body5, body6]
+all_links = unpack_bodies(grass_field + [body, body2])
+
 cursor = GF.Cursor()
 
+FIELD_LENGTH = 10
+
+field = GF.create_field(FIELD_LENGTH)
+f1 = GF.create_field(FIELD_LENGTH)
+f2 = GF.create_field(FIELD_LENGTH)
+f3 = GF.create_field(FIELD_LENGTH)
+f4 = GF.create_field(FIELD_LENGTH)
+f5 = GF.create_field(FIELD_LENGTH)
+f6 = GF.create_field(FIELD_LENGTH)
+f7 = GF.create_field(FIELD_LENGTH)
+f8 = GF.create_field(FIELD_LENGTH)
+f9 = GF.create_field(FIELD_LENGTH)
+f10 = GF.create_field(FIELD_LENGTH)
+
+fields = [f1, f2, f3, field]
+all_winds = unpack_fields(fields)
+
+
+dim_color(fields)
+
 pos = 0,0
+
+LEFT_BOUNDARY = pygame.Rect((-10, 0, 10, HEIGHT))
+RIGHT_BOUNDARY = pygame.Rect((WIDTH + 10, 0, 10, HEIGHT))
+
+WALLS = LEFT_BOUNDARY, RIGHT_BOUNDARY
+
 
 selection = None
 

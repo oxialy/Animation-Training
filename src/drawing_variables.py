@@ -8,6 +8,7 @@ import pygame
 
 colors = {
     'blue1': '#102080',
+    'blue2': '#1828A0',
     'lightblue1': '#4040B3',
     'seagreen1': '#106040',
     'orange1': '#806020',
@@ -19,9 +20,9 @@ colors = {
     'cyan1': '#018090'
 }
 
-bg_color = '#151515'
+#bg_color = '#151515'
 
-bg_color = '#002035'
+bg_color = '#001A27'
 
 
 

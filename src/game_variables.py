@@ -54,7 +54,7 @@ def get_color_range(k_r=1, k_g=5, k_b=1/80):
     return colA
 
 def dim_color(fields):
-    k = 1.2
+    k = 1
     for field in fields:
         for wind in field.field:
             r, g, b = wind.col
@@ -117,6 +117,7 @@ WALLS = LEFT_BOUNDARY, RIGHT_BOUNDARY
 selection = None
 
 DRAWLINE = False
+TOGGLE_FIELD = True
 
 
 questions = [

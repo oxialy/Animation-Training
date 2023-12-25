@@ -38,14 +38,27 @@ class Field:
 
 
 class Wind:
-    def __init__(self, pos, rad, force):
+    def __init__(self, pos, rad, col, vel, force):
         self.pos = Vector2(pos)
         self.rad = rad
 
-        self.vel = Vector2(7, 0)
+        self.vel = vel
+        self.vel2 = Vector2(2, 0)
 
         self.force = Vector2(force)
-        self.col = colors['blue1']
+        self.col = col
+
+        self.active = True
+
+        self.active_attr = {
+            'col': col,
+            'vel': vel
+        }
+        self.inactive_attr = {
+            'col': colors['blue2'],
+            'vel': Vector2(2, 0)
+        }
+
 
     def __repr__(self):
         return repr(self.force)
@@ -72,12 +85,19 @@ class Wind:
                 return True
 
     def apply_force(self, link):
-        if link.type in ['body', 'tail']:
+        if link.type in ['body', 'tail'] and self.active:
             link.vel += self.force
 
     def check_apply_force(self, links):
         pass
 
+    def activate(self):
+        self.col = self.active_attr['col']
+        self.vel = self.active_attr['vel']
+
+    def deactivate(self):
+        self.col = self.inactive_attr['col']
+        self.vel = self.inactive_attr['vel']
 
 
 

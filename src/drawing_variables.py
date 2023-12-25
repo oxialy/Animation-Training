@@ -17,12 +17,15 @@ colors = {
     'grey1': '#707070',
     'red1': '#A01010',
     'purple1': '#901080',
-    'cyan1': '#018090'
+    'lightpurple1': '#aa70aa',
+    'cyan1': '#018090',
+    'green1': '#017028',
+    'green2': '#186540'
 }
 
 #bg_color = '#151515'
 
-bg_color = '#001A27'
+bg_color = '#101625'
 
 
 

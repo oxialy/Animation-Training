@@ -26,8 +26,8 @@ class Link:
         self.deceleration = 0.94
         self.max_vel = 2
 
-        self.col = colors['seagreen1']
-        self.col2 = '#909000'
+        self.col = colors['green2']
+        self.col2 = '#60a0b0'
 
         self.left_link = None
         self.right_link = None
@@ -49,9 +49,9 @@ class Link:
         x = self.pos[0] - w // 2
         y = self.pos[1] - h // 2
 
+        #pygame.draw.ellipse(win, self.col2, (x,y,w,h))
 
-        pygame.draw.ellipse(win, self.col, (x,y,w,h), 8)
-        #pygame.draw.ellipse(win, self.col2, (self.pos, (2,2)))
+        pygame.draw.ellipse(win, self.col, (x,y,w,h), 0)
 
         self.draw_inner(win)
 

@@ -306,6 +306,10 @@ def update_all(links, fields=()):
 
         link.cap_velocity()
 
+def update_all_bodies(bodies, fields=()):
+    for body in bodies:
+        update_all(body, fields)
+
 def update_fields(fields, boundaries):
     for field in fields:
         field.move_all(boundaries)
@@ -362,7 +366,7 @@ def create_field(n):
     COL_SIZE = (sett.WIDTH - 40) // n
     ROW_SIZE = 10
 
-    min_norm, max_norm = 0, 1
+    min_norm, max_norm = 0, 10
     k = 180 // max_norm
 
     y = randrange(100, 700)
@@ -370,7 +374,7 @@ def create_field(n):
     angle = 0
     norm = randrange(min_norm, max_norm)
 
-    increment = -0.1
+    increment = -1
 
     for i in range(n):
         x = 20 + COL_SIZE * i
@@ -379,7 +383,7 @@ def create_field(n):
         norm += increment
         norm = max(min_norm, min(max_norm, norm))
 
-        force = Vector2(get_point_from_angle((0,0), angle, norm))
+        force = Vector2(get_point_from_angle((0,0), angle, norm)) / 10
 
         r, g, b = 110 - norm * 0.5, norm * k * 0.6, norm * k * 0.5 + 60
         r, g, b = max(0, min(240, r)), max(0, min(240, g)), max(0, min(240, b))
@@ -387,7 +391,7 @@ def create_field(n):
         if not min_norm < norm < max_norm:
             increment *= -1
 
-        wind = Wind((x,y), 11, force)
+        wind = Wind((x,y), 8, force)
         wind.col = r,g,b
 
         field.field.append(wind)

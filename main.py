@@ -54,7 +54,7 @@ def main():
                 if selection:
                     selection.selected = False
 
-                GV.selection = selection = GF.check_selected(body, GV.pos)
+                GV.selection = selection = GF.check_selected(GV.all_links, GV.pos)
 
                 if not selection:
                     selection = GF.check_selected(GV.body2, GV.pos)
@@ -69,7 +69,7 @@ def main():
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)
         GF.update_all(GV.body)
-        GF.update_all(GV.body2, GV.fields)
+        GF.update_all(GV.all_links, GV.fields)
 
         GV.nearest_links = GF.sort_elems(GV.nearest_links)
 

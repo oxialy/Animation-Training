@@ -125,15 +125,17 @@ class Link:
     def apply_force(self):
         if self.type in ['body', 'tail']:
             A = self.pos
-            rad = 0
 
             if self.type == 'body':
                 B = get_average_point(self.left_link.pos, self.right_link.pos)
+                rad = 0
+                force_factor = 10
             elif self.type == 'tail':
                 B = self.left_link.pos
                 rad = self.size[0]
+                force_factor = 40
 
-            force = get_force(A, B, rad, 10)
+            force = get_force(A, B, rad, force_factor)
 
             self.vel += force
 
@@ -296,7 +298,7 @@ def update_all(links, fields=()):
         link.apply_force()
         link.move()
 
-        link.attract_right()
+        #link.attract_right()
         link.decelerate()
 
         current_wind = link.is_on_wind(fields)
@@ -314,6 +316,13 @@ def update_fields(fields, boundaries):
     for field in fields:
         field.move_all(boundaries)
 
+def toggle_field(winds):
+    for wind in winds:
+        wind.active = not wind.active
+        if wind.active:
+            wind.activate()
+        else:
+            wind.deactivate()
 
 def cap_velocity_all(links):
     for link in links:
@@ -367,7 +376,7 @@ def create_field(n):
     ROW_SIZE = 10
 
     min_norm, max_norm = 0, 10
-    k = 180 // max_norm
+    k = 205 // max_norm
 
     y = randrange(100, 700)
     force = Vector2(0, 0)
@@ -380,18 +389,20 @@ def create_field(n):
         x = 20 + COL_SIZE * i
         y += choice([-1, 1]) * ROW_SIZE
 
+        vel = Vector2(7, 0)
+
         norm += increment
         norm = max(min_norm, min(max_norm, norm))
 
-        force = Vector2(get_point_from_angle((0,0), angle, norm)) / 10
+        force = Vector2(get_point_from_angle((0,0), angle, norm)) / 20
 
-        r, g, b = 110 - norm * 0.5, norm * k * 0.6, norm * k * 0.5 + 60
-        r, g, b = max(0, min(240, r)), max(0, min(240, g)), max(0, min(240, b))
+        r, g, b = 100 - norm * k * 0.5, norm * k * 0.8, norm * k * 0.5 + 60
+        r, g, b = max(0, min(250, r)), max(0, min(250, g)), max(0, min(250, b))
 
         if not min_norm < norm < max_norm:
             increment *= -1
 
-        wind = Wind((x,y), 8, force)
+        wind = Wind((x,y), 8, (r,g,b), vel, force)
         wind.col = r,g,b
 
         field.field.append(wind)

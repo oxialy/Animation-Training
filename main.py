@@ -36,7 +36,8 @@ def main():
                 if event.key == K_c:
                     pass
                 if event.key == K_SPACE:
-                    pass
+                    GF.toggle_field(GV.all_winds)
+
 
             if pygame.mouse.get_pressed()[0]:
                 if selection:
@@ -63,8 +64,9 @@ def main():
                     selection.selected = True
                     GV.cursor.set_pos(selection.pos)
 
-        GV.field.move_all(GV.WALLS)
-        GF.update_fields(GV.fields, GV.WALLS)
+        if GV.TOGGLE_FIELD:
+            GV.field.move_all(GV.WALLS)
+            GF.update_fields(GV.fields, GV.WALLS)
 
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)

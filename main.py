@@ -20,6 +20,8 @@ def main():
     selection = None
     run_main = True
 
+    GF.toggle_field(GV.all_winds)
+
     while run_main:
 
         draw_screen(WIN)

@@ -19,7 +19,7 @@ class Link:
     def __init__(self, pos, size, angle, type, i):
         self.pos = Vector2(pos)
         self.size = size
-        self.angle = 0
+        self.angle = -pi/2
 
         self.vel = Vector2(0, 0)
 
@@ -94,6 +94,8 @@ class Link:
 
     def move(self):
         self.pos += self.vel
+        if self.left_link:
+            self.angle = get_angle(self.left_link.pos, self.pos)
 
     def decelerate(self):
         self.vel *= self.deceleration
@@ -123,7 +125,7 @@ class Link:
             self.right_link.pos += force
 
     def apply_force(self):
-        if self.type in ['body', 'tail']:
+        if self.type in ['body']:
             A = self.pos
 
             if self.type == 'body':
@@ -143,6 +145,16 @@ class Link:
 
             if self.count < 3:
                 print(self.count, force, self)
+
+    def apply_angular_force(self):
+        if self.type in ['body', 'tail']:
+            A = self.pos
+            B = get_point_from_angle(self.left_link.pos, self.left_link.angle, self.size[0])
+            rad = self.size[0]
+
+            force = get_force(A, B, rad, 70)
+
+            self.vel += force
 
     def cap_velocity(self):
         x, y = self.vel
@@ -295,7 +307,8 @@ def get_force(A, B, rad, force_factor=30):
 
 def update_all(links, fields=()):
     for link in links:
-        link.apply_force()
+        #link.apply_force()
+        link.apply_angular_force()
         link.move()
 
         #link.attract_right()

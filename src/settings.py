@@ -4,7 +4,7 @@ pygame.font.init()
 
 WIDTH, HEIGHT = 700,700
 
-FPS = 30
+FPS = 10
 
 clock = pygame.time.Clock()
 

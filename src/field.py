@@ -42,7 +42,7 @@ class Wind:
         self.pos = Vector2(pos)
         self.rad = rad
 
-        self.vel = Vector2(2, 0)
+        self.vel = Vector2(7, 0)
 
         self.force = Vector2(force)
         self.col = colors['blue1']
@@ -72,7 +72,8 @@ class Wind:
                 return True
 
     def apply_force(self, link):
-        link.vel += self.force
+        if link.type in ['body', 'tail']:
+            link.vel += self.force
 
     def check_apply_force(self, links):
         pass

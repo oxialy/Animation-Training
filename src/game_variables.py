@@ -39,6 +39,13 @@ def get_color_range(k_r=1, k_g=5, k_b=1/80):
 
     return colA
 
+def dim_color(fields):
+    k = 2
+    for field in fields:
+        for wind in field.field:
+            r, g, b = wind.col
+            wind.col = r / k, g / k, b / k
+
 
 #tile1 = GF.Tile((4,4), (200, 30))
 
@@ -69,7 +76,9 @@ f8 = GF.create_field(FIELD_LENGTH)
 f9 = GF.create_field(FIELD_LENGTH)
 f10 = GF.create_field(FIELD_LENGTH)
 
-fields = [f1, f2, f3, f4, f5]
+fields = [f1, f2, f3, f4, f5, field]
+
+dim_color(fields)
 
 pos = 0,0
 

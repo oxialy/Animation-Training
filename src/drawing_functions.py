@@ -32,6 +32,9 @@ def draw_test(win, body):
 def draw_screen(win):
     win.fill(bg_color)
 
+    gv.field.draw(win)
+    draw_elem(win, gv.fields)
+
     draw_elem(win, gv.nearest_links)
     draw_elem(win, gv.body)
     draw_elem(win, gv.body2)
@@ -40,8 +43,6 @@ def draw_screen(win):
         draw_lines(win, gv.pos, gv.nearest_links)
 
     gv.cursor.draw(win)
-    gv.field.draw(win)
-    draw_elem(win, gv.fields)
 
     draw_test(win, gv.body)
 

@@ -19,25 +19,38 @@ def draw_test(win, body):
     #pygame.draw.ellipse(win, colors['orange1'], (t2.pos, (5,5)))
     #pygame.draw.ellipse(win, colors['orange1'], (t3.pos, (5,5)))
 
-    write_text(win, gv.pos, (sett.WIDTH - 80, 20), sett.FONT15)
+    f = gv.field
 
     write_text(win, gv.pos, (sett.WIDTH - 80, 20), sett.FONT15)
+
+    write_text(win, len(f.field), (80, 520), sett.FONT15)
+
+    f = gv.f1.field
+    w = sorted(f, key=lambda wind: wind.force[0], reverse=True)[0]
+
+    write_text(win, w.force, (30, 520), sett.FONT15)
 
     for i, link in enumerate(body):
-        write_text(win, link.type, (630, 80 + i * 13), sett.FONT12)
+        write_text(win, link.type, (630, 80 + i * 13), sett.FONT12, colors['darkgrey1'])
 
 
 def draw_screen(win):
     win.fill(bg_color)
 
-    draw_elem(win, gv.nearest_links)
+    gv.field.draw(win)
+    draw_elem(win, gv.fields)
+
+    '''draw_elem(win, gv.nearest_links)
     draw_elem(win, gv.body)
     draw_elem(win, gv.body2)
+    draw_all_bodies(win, gv.grass_field)'''
+    draw_elem(win, gv.all_links)
 
     if gv.DRAWLINE:
         draw_lines(win, gv.pos, gv.nearest_links)
 
     gv.cursor.draw(win)
+
     draw_test(win, gv.body)
 
     pygame.draw.circle(win, colors['grey1'], (600, 527), 3)
@@ -45,11 +58,13 @@ def draw_screen(win):
     if gv.selection:
         sel = gv.selection
 
-        write_text(win, sel.left_link, (30, 520), sett.FONT12)
-        write_text(win, sel.right_link, (30, 550), sett.FONT12)
+        write_text(win, sel.left_link, (30, 620), sett.FONT12)
+        write_text(win, sel.right_link, (30, 650), sett.FONT12)
 
-        sel.draw_left(win)
-        sel.draw_right(win)
+        if sel.left_link:
+            sel.draw_left(win)
+        if sel.right_link:
+            sel.draw_right(win)
 
 
 def draw_tiles(win, tiles):
@@ -64,8 +79,12 @@ def draw_lines(win, pos, links):
     for link in links:
         link.draw_line(win, pos)
 
-def write_text(win, data, pos, font=sett.FONT20):
-    text_surf = font.render(str(data), 1, 'grey')
+def draw_all_bodies(win, bodies):
+    for body in bodies:
+        draw_elem(win, body)
+
+def write_text(win, data, pos, font=sett.FONT20, col=colors['lightgrey1']):
+    text_surf = font.render(str(data), 1, col)
 
     win.blit(text_surf, pos)
 

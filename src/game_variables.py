@@ -55,7 +55,29 @@ body2 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
 
 cursor = GF.Cursor()
 
+FIELD_LENGTH = 25
+
+field = GF.create_field(FIELD_LENGTH)
+f1 = GF.create_field(FIELD_LENGTH)
+f2 = GF.create_field(FIELD_LENGTH)
+f3 = GF.create_field(FIELD_LENGTH)
+f4 = GF.create_field(FIELD_LENGTH)
+f5 = GF.create_field(FIELD_LENGTH)
+f6 = GF.create_field(FIELD_LENGTH)
+f7 = GF.create_field(FIELD_LENGTH)
+f8 = GF.create_field(FIELD_LENGTH)
+f9 = GF.create_field(FIELD_LENGTH)
+f10 = GF.create_field(FIELD_LENGTH)
+
+fields = [f1, f2, f3, f4, f5]
+
 pos = 0,0
+
+LEFT_BOUNDARY = pygame.Rect((-10, 0, 10, HEIGHT))
+RIGHT_BOUNDARY = pygame.Rect((WIDTH + 10, 0, 10, HEIGHT))
+
+WALLS = LEFT_BOUNDARY, RIGHT_BOUNDARY
+
 
 selection = None
 

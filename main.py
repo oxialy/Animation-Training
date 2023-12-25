@@ -63,6 +63,7 @@ def main():
                     selection.selected = True
                     GV.cursor.set_pos(selection.pos)
 
+        #GV.field.move_all(GV.WALLS)
 
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)

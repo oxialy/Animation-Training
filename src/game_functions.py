@@ -217,11 +217,13 @@ class Cursor:
         self.start = Vector2(0, 0)
         self.end = Vector2(0, 0)
 
+        self.color = colors['purple1']
+        self.col2 = colors['lightblue1']
+
         self.len = 0
         self.force = Vector2(0, 0)
 
-        self.color = colors['purple1']
-        self.col2 = colors['lightblue1']
+        self.max_norm = 1
 
     def draw(self, win):
         pygame.draw.line(win, self.color, self.start, self.end)
@@ -231,6 +233,17 @@ class Cursor:
 
     def set_force(self):
         self.force = get_force(self.start, self.end, 0, 200)
+
+        x, y = self.force
+
+        norm = sqrt(x ** 2 + y ** 2)
+
+        if norm != 0:
+            k = self.max_norm / norm
+
+            if norm > self.max_norm:
+                self.force *= k
+                self.color = colors['red1']
 
     def set_pos(self, pos):
         self.start = pos

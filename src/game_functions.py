@@ -378,7 +378,7 @@ def check_selected(links, pos):
 def create_body(n, pos=(500,80), size=15):
     body = []
 
-    head_pos = randrange(20, sett.WIDTH - 20), randrange(80, 120)
+    head_pos = randrange(20, sett.WIDTH - 20), randrange(80, 120) + 300
     w, h = size, size
     type = 'body'
 
@@ -407,6 +407,17 @@ def create_body(n, pos=(500,80), size=15):
     body[-1].type = 'tail'
 
     return body
+
+def create_bodies(n):
+    all_bodies = []
+
+    for i in range(n):
+        length = randrange(20, 33)
+        new_body = create_body(length, size=3)
+
+        all_bodies.append(new_body)
+
+    return all_bodies
 
 
 def create_field(n):

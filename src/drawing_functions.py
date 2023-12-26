@@ -40,10 +40,8 @@ def draw_screen(win):
     gv.field.draw(win)
     draw_elem(win, gv.fields)
 
-    '''draw_elem(win, gv.nearest_links)
     draw_elem(win, gv.body)
-    draw_elem(win, gv.body2)
-    draw_all_bodies(win, gv.grass_field)'''
+
     draw_elem(win, gv.all_links)
 
     if gv.DRAWLINE:

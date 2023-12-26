@@ -21,6 +21,7 @@ def draw_test(win, body):
 
     f = gv.field
 
+    write_text(win, gv.GRAVITY_INTENSITY, (80,20))
     write_text(win, gv.pos, (sett.WIDTH - 80, 20), sett.FONT15)
 
     write_text(win, len(f.field), (80, 520), sett.FONT15)

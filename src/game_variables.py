@@ -67,7 +67,7 @@ colA = get_color_range(1.8, 4, 1/110)
 colB = get_color_range(10, 3, 2)
 
 
-GRAVITY_INTENSITY = 0.02
+GRAVITY_INTENSITY = 0.01
 
 animated_tiles = []
 
@@ -76,7 +76,7 @@ nearest_links = create_links(7)
 all_links = []
 all_winds = []
 
-body = GF.create_body(sett.BODY_LENGTH, (500, 470), 20)
+body = GF.create_body(sett.BODY_LENGTH, (500, 470), 15)
 
 grass_field = GF.create_bodies(10)
 
@@ -99,7 +99,7 @@ f8 = GF.create_field(FIELD_LENGTH)
 f9 = GF.create_field(FIELD_LENGTH)
 f10 = GF.create_field(FIELD_LENGTH)
 
-fields = [f1, f2, f3, field]
+fields = [field, f1, f2, f3, f4, f5]
 all_winds = unpack_fields(fields)
 
 

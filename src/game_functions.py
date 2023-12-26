@@ -214,7 +214,6 @@ class Link:
         self.distance_from_mouse = get_dist(self.pos, pos)
 
 
-
 class Cursor:
     def __init__(self):
         self.start = Vector2(0, 0)
@@ -226,7 +225,7 @@ class Cursor:
         self.len = 0
         self.force = Vector2(0, 0)
 
-        self.max_norm = 1
+        self.max_norm = 1.4
 
     def draw(self, win):
         pygame.draw.line(win, self.color, self.start, self.end)
@@ -247,6 +246,8 @@ class Cursor:
             if norm > self.max_norm:
                 self.force *= k
                 self.color = colors['red1']
+            else:
+                self.color = colors['purple1']
 
     def set_pos(self, pos):
         self.start = pos
@@ -391,7 +392,7 @@ def check_selected(links, pos):
 def create_body(n, pos=(500,80), size=15):
     body = []
 
-    head_pos = randrange(20, sett.WIDTH - 20), randrange(80, 120) + 300
+    head_pos = randrange(20, sett.WIDTH - 20), randrange(80, 120) + 400
     w, h = size, size
     type = 'body'
 
@@ -421,12 +422,12 @@ def create_body(n, pos=(500,80), size=15):
 
     return body
 
-def create_bodies(n):
+def create_bodies(n, size=10):
     all_bodies = []
 
     for i in range(n):
         length = randrange(20, 33)
-        new_body = create_body(length, size=3)
+        new_body = create_body(length, size=size)
 
         all_bodies.append(new_body)
 

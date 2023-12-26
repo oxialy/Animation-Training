@@ -47,10 +47,13 @@ def main():
 
                 if event.key == K_a:
                     GF.toggle_angle(GV.all_links)
+
                 if event.key == K_g:
                     invert_gravity(GV.grass_field)
+
                 if event.key == K_SPACE:
                     GF.toggle_field(GV.all_winds)
+
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #GV.DRAWLINE = not GV.DRAWLINE
@@ -58,9 +61,6 @@ def main():
                     selection.SELECTED = False
 
                 GV.selection = selection = GF.check_selected(GV.all_links, GV.pos)
-
-                if not selection:
-                    selection = GF.check_selected(GV.body2, GV.pos)
 
                 if selection:
                     selection.SELECTED = True
@@ -80,6 +80,20 @@ def main():
             if selection:
                 GV.cursor.shorten()
                 GV.cursor.set_force()
+
+        keys = pygame.key.get_pressed()
+
+        if keys[K_UP]:
+            GV.GRAVITY_INTENSITY += 0.01
+
+        elif keys[K_DOWN]:
+            GV.GRAVITY_INTENSITY -= 0.01
+
+        elif keys[K_LEFT]:
+            GV.GRAVITY_INTENSITY = 0.02
+
+        elif keys[K_RIGHT]:
+            GV.GRAVITY_INTENSITY = -0.22
 
         if GV.TOGGLE_FIELD:
             GV.field.move_all(GV.WALLS)

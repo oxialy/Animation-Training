@@ -23,7 +23,7 @@ class Link:
 
         self.vel = Vector2(0, 0)
 
-        self.deceleration = 0.94
+        self.deceleration = 0.91
         self.max_vel = 2
 
         self.col = colors['green2']
@@ -54,6 +54,7 @@ class Link:
         pygame.draw.ellipse(win, self.col, (x,y,w,h), 0)
 
         self.draw_inner(win)
+        self.draw_angle(win)
 
         if self.selected:
             pygame.draw.ellipse(win, colors['cyan1'], (x,y,w,h), 0)
@@ -65,6 +66,12 @@ class Link:
                 rect = msc.centered_rect((x,y,w,h))
 
                 pygame.draw.ellipse(win, colors['red1'], rect)
+
+    def draw_angle(self, win):
+        A = self.pos
+        B = get_point_from_angle(self.pos, self.angle, self.size[0])
+
+        pygame.draw.line(win, 'grey', A, B)
 
     def draw_inner(self, win):
         x,y = self.pos
@@ -94,8 +101,8 @@ class Link:
 
     def move(self):
         self.pos += self.vel
-        if self.left_link:
-            self.angle = get_angle(self.left_link.pos, self.pos)
+        if self.right_link:
+            self.angle = get_angle(self.pos, self.right_link.pos)
 
     def decelerate(self):
         self.vel *= self.deceleration
@@ -131,7 +138,7 @@ class Link:
             if self.type == 'body':
                 B = get_average_point(self.left_link.pos, self.right_link.pos)
                 rad = 0
-                force_factor = 10
+                force_factor = 30
             elif self.type == 'tail':
                 B = self.left_link.pos
                 rad = self.size[0]
@@ -148,13 +155,26 @@ class Link:
 
     def apply_angular_force(self):
         if self.type in ['body', 'tail']:
+            left = self.left_link
             A = self.pos
             B = get_point_from_angle(self.left_link.pos, self.left_link.angle, self.size[0])
-            rad = self.size[0]
+            rad = 0
 
-            force = get_force(A, B, rad, 70)
+            force = get_force(A, B, rad, 40)
 
             self.vel += force
+
+    '''def apply_angular_force(self):
+        if self.type in ['body', 'tail']:
+            left = self.left_link
+            dist = get_dist(left.self.left_link.pos, left.pos)
+            A = self.pos
+            B = get_point_from_angle(self.left_link.pos, self.left_link.angle, dist)
+            rad = 0
+
+            force = get_force(A, B, rad, 30)
+
+            self.vel += force'''
 
     def cap_velocity(self):
         x, y = self.vel
@@ -307,7 +327,7 @@ def get_force(A, B, rad, force_factor=30):
 
 def update_all(links, fields=()):
     for link in links:
-        #link.apply_force()
+        link.apply_force()
         link.apply_angular_force()
         link.move()
 

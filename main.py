@@ -22,6 +22,8 @@ def main():
 
     GF.toggle_field(GV.all_winds)
 
+    pygame.time.wait(200)
+
     while run_main:
 
         draw_screen(WIN)

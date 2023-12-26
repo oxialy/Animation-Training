@@ -75,13 +75,15 @@ all_links = []
 all_winds = []
 
 body = GF.create_body(sett.BODY_LENGTH)
-body2 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body2 = GF.create_body(sett.BODY_LENGTH + 0, (170, 110), 10)
 body3 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
 body4 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
 body5 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
 body6 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
 
 grass_field = [body3, body4, body5, body6]
+grass_field = [body3]
+
 all_links = unpack_bodies(grass_field + [body, body2])
 
 cursor = GF.Cursor()

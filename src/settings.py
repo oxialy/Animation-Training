@@ -4,7 +4,7 @@ pygame.font.init()
 
 WIDTH, HEIGHT = 700,700
 
-FPS = 10
+FPS = 30
 
 clock = pygame.time.Clock()
 
@@ -20,7 +20,7 @@ FONT35 = pygame.font.SysFont('arial', 35)
 FONT40 = pygame.font.SysFont('arial', 40)
 
 
-BODY_LENGTH = 27
+BODY_LENGTH = 5
 LINK_SIZE = 15
 FORCE_FACTOR = 100
 

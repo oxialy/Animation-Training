@@ -42,18 +42,6 @@ def main():
                 if event.key == K_SPACE:
                     GF.toggle_field(GV.all_winds)
 
-
-            if pygame.mouse.get_pressed()[0]:
-                if selection:
-                    GV.cursor.start = selection.pos
-                    GV.cursor.end = GV.pos
-                    GV.cursor.set_force()
-
-                    selection.vel += GV.cursor.force
-
-                    pygame.draw.rect(WIN, 'grey', (20,20, 20,20))
-
-
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #GV.DRAWLINE = not GV.DRAWLINE
                 if selection:
@@ -67,10 +55,28 @@ def main():
                 if selection:
                     selection.selected = True
                     GV.cursor.set_pos(selection.pos)
+                    GV.cursor.set_force()
+
+        if pygame.mouse.get_pressed()[0]:
+            if selection:
+                GV.cursor.start = selection.pos
+                GV.cursor.end = GV.pos
+                GV.cursor.set_force()
+
+                #selection.vel += GV.cursor.force
+
+                pygame.draw.rect(WIN, 'grey', (20,20, 20,20))
+        else:
+            if selection:
+                GV.cursor.shorten()
+                GV.cursor.set_force()
 
         if GV.TOGGLE_FIELD:
             GV.field.move_all(GV.WALLS)
             GF.update_fields(GV.fields, GV.WALLS)
+
+        if selection:
+            selection.vel += GV.cursor.force
 
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)

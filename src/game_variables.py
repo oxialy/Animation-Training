@@ -86,7 +86,7 @@ all_links = unpack_bodies(grass_field + [body, body2])
 
 cursor = GF.Cursor()
 
-FIELD_LENGTH = 10
+FIELD_LENGTH = 70
 
 field = GF.create_field(FIELD_LENGTH)
 f1 = GF.create_field(FIELD_LENGTH)

@@ -19,7 +19,7 @@ class Link:
     def __init__(self, pos, size, angle, type, i):
         self.pos = Vector2(pos)
         self.size = size
-        self.angle = -pi/2
+        self.angle = pi/2
 
         self.vel = Vector2(0, 0)
 
@@ -101,6 +101,7 @@ class Link:
 
     def move(self):
         self.pos += self.vel
+
         if self.type == 'body':
             self.angle = get_angle(self.left_link.pos, self.pos)
         elif self.type == 'head' and False:
@@ -140,7 +141,7 @@ class Link:
             if self.type == 'body':
                 B = get_average_point(self.left_link.pos, self.right_link.pos)
                 rad = 0
-                force_factor = self.size[0] * 1
+                force_factor = self.size[0] * 2
             elif self.type == 'tail':
                 B = self.left_link.pos
                 rad = self.size[0]
@@ -156,28 +157,15 @@ class Link:
                 print(self.count, force, self)
 
     def apply_angular_force(self):
-        if self.type in ['tail']:
-            left = self.left_link
+        if self.type in ['tail', 'body']:
             A = self.pos
             B = get_point_from_angle(self.left_link.pos, self.left_link.angle, self.size[0])
             rad = 0
-            force_factor = self.size[0] * 2
+            force_factor = self.size[0] * 8
 
             force = get_force(A, B, rad, force_factor)
 
             self.vel += force
-
-    '''def apply_angular_force(self):
-        if self.type in ['body', 'tail']:
-            left = self.left_link
-            dist = get_dist(left.self.left_link.pos, left.pos)
-            A = self.pos
-            B = get_point_from_angle(self.left_link.pos, self.left_link.angle, dist)
-            rad = 0
-
-            force = get_force(A, B, rad, 30)
-
-            self.vel += force'''
 
     def cap_velocity(self):
         x, y = self.vel
@@ -248,6 +236,10 @@ class Cursor:
         self.start = pos
         self.end = pos
 
+    def shorten(self):
+        force = get_force(self.end, self.start, 0, 60, 50)
+        self.end += force
+
 
 def update_parts_color(parts, colA):
     for part in parts:
@@ -315,12 +307,12 @@ def get_tail_resting_pos(body):
     force = get_force(tail.pos, left_link.pos, rad)
 
 
-def get_force(A, B, rad, force_factor=30):
+def get_force(A, B, rad, force_factor=30, min_force=0):
     dist = get_dist(A, B)
     angle = get_angle(A, B)
 
-    force_x = cos(angle) * (dist - rad) / force_factor
-    force_y = sin(angle) * (dist - rad) / force_factor
+    force_x = cos(angle) * (dist - rad + min_force) / force_factor
+    force_y = sin(angle) * (dist - rad + min_force) / force_factor
 
     force_x = min(1.5, force_x)
     force_y = min(1.7, force_y)
@@ -332,6 +324,7 @@ def update_all(links, fields=()):
     for link in links:
         link.apply_force()
         link.apply_angular_force()
+        apply_gravity(link, 0.01)
         link.move()
 
         #link.attract_right()
@@ -364,6 +357,9 @@ def cap_velocity_all(links):
     for link in links:
         link.cap_velocity()
 
+def apply_gravity(link, intensity):
+    if link.type in ['body', 'tail']:
+        link.vel += Vector2(0, intensity)
 
 def check_selected(links, pos):
     for link in links:
@@ -415,30 +411,30 @@ def create_field(n):
     k = 205 // max_norm
 
     y = randrange(100, 700)
+    vel = Vector2(4, 0)
     force = Vector2(0, 0)
     angle = 0
-    norm = randrange(min_norm, max_norm)
+    norm = sqrt(randrange(min_norm, max_norm))
 
-    increment = -1
+    increment = -0.3
 
     for i in range(n):
         x = 20 + COL_SIZE * i
         y += choice([-1, 1]) * ROW_SIZE
 
-        vel = Vector2(7, 0)
-
         norm += increment
-        norm = max(min_norm, min(max_norm, norm))
+        norm2 = norm ** 2
+        norm2 = max(min_norm, min(max_norm, norm2))
 
-        force = Vector2(get_point_from_angle((0,0), angle, norm)) / 20
+        force = Vector2(get_point_from_angle((0,0), angle, norm2)) / 20
 
-        r, g, b = 100 - norm * k * 0.5, norm * k * 0.8, norm * k * 0.5 + 60
+        r, g, b = 100 - norm2 * k * 0.5, norm2 * k * 0.8, norm2 * k * 0.5 + 60
         r, g, b = max(0, min(250, r)), max(0, min(250, g)), max(0, min(250, b))
 
-        if not min_norm < norm < max_norm:
+        if not min_norm < norm2 < max_norm:
             increment *= -1
 
-        wind = Wind((x,y), 8, (r,g,b), vel, force)
+        wind = Wind((x,y), 4, (r,g,b), vel, force)
         wind.col = r,g,b
 
         field.field.append(wind)

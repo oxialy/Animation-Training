@@ -7,13 +7,21 @@ from src.game_variables import body, nearest_links
 
 from src.drawing_functions import draw_screen
 
-import pygame, random
+import pygame, random, math
 from pygame.locals import *
 from random import choice, randrange
+from math import pi
 
 pygame.init()
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+
+def invert_gravity(bodies):
+    for body in bodies:
+        body[0].angle = -body[0].angle
+
+    GV.GRAVITY_INTENSITY = -GV.GRAVITY_INTENSITY
 
 
 def main():
@@ -37,15 +45,17 @@ def main():
                 if event.key in [K_q, K_ESCAPE]:
                     run_main = False
 
-                if event.key == K_c:
-                    pass
+                if event.key == K_a:
+                    GF.toggle_angle(GV.all_links)
+                if event.key == K_g:
+                    invert_gravity(GV.grass_field)
                 if event.key == K_SPACE:
                     GF.toggle_field(GV.all_winds)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #GV.DRAWLINE = not GV.DRAWLINE
                 if selection:
-                    selection.selected = False
+                    selection.SELECTED = False
 
                 GV.selection = selection = GF.check_selected(GV.all_links, GV.pos)
 
@@ -53,7 +63,7 @@ def main():
                     selection = GF.check_selected(GV.body2, GV.pos)
 
                 if selection:
-                    selection.selected = True
+                    selection.SELECTED = True
                     GV.cursor.set_pos(selection.pos)
                     GV.cursor.set_force()
 
@@ -81,7 +91,7 @@ def main():
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)
         GF.update_all(GV.body)
-        GF.update_all(GV.all_links, GV.fields)
+        GF.update_all(GV.all_links, GV.fields, GV.GRAVITY_INTENSITY)
 
         GV.nearest_links = GF.sort_elems(GV.nearest_links)
 

@@ -36,7 +36,8 @@ class Link:
         self.i = i
 
         self.distance_from_mouse = 0
-        self.selected = False
+        self.SELECTED = False
+        self.TOGGLE_ANGLE = True
 
         self.count = 0
 
@@ -54,9 +55,8 @@ class Link:
         pygame.draw.ellipse(win, self.col, (x,y,w,h), 0)
 
         self.draw_inner(win)
-        self.draw_angle(win)
 
-        if self.selected:
+        if self.SELECTED:
             pygame.draw.ellipse(win, colors['cyan1'], (x,y,w,h), 0)
 
             if self.left_link and self.right_link:
@@ -66,6 +66,9 @@ class Link:
                 rect = msc.centered_rect((x,y,w,h))
 
                 pygame.draw.ellipse(win, colors['red1'], rect)
+
+        if self.TOGGLE_ANGLE:
+            self.draw_angle(win)
 
     def draw_angle(self, win):
         A = self.pos
@@ -141,7 +144,7 @@ class Link:
             if self.type == 'body':
                 B = get_average_point(self.left_link.pos, self.right_link.pos)
                 rad = 0
-                force_factor = self.size[0] * 2
+                force_factor = self.size[0] * 1
             elif self.type == 'tail':
                 B = self.left_link.pos
                 rad = self.size[0]
@@ -161,7 +164,7 @@ class Link:
             A = self.pos
             B = get_point_from_angle(self.left_link.pos, self.left_link.angle, self.size[0])
             rad = 0
-            force_factor = self.size[0] * 8
+            force_factor = self.size[0] * 2
 
             force = get_force(A, B, rad, force_factor)
 
@@ -333,11 +336,11 @@ def get_force(A, B, rad, force_factor=30, min_force=0):
     return Vector2(force_x, force_y)
 
 
-def update_all(links, fields=()):
+def update_all(links, fields=(), gravity_intensity=0.02):
     for link in links:
         link.apply_force()
         link.apply_angular_force()
-        apply_gravity(link, 0.01)
+        apply_gravity(link, gravity_intensity)
         link.move()
 
         #link.attract_right()
@@ -366,6 +369,10 @@ def toggle_field(winds):
         else:
             wind.deactivate()
 
+def toggle_angle(links):
+    for link in links:
+        link.TOGGLE_ANGLE = not link.TOGGLE_ANGLE
+
 def cap_velocity_all(links):
     for link in links:
         link.cap_velocity()
@@ -374,16 +381,17 @@ def apply_gravity(link, intensity):
     if link.type in ['body', 'tail']:
         link.vel += Vector2(0, intensity)
 
+
 def check_selected(links, pos):
     for link in links:
         if link.is_clicked(pos):
-            link.selected = True
+            link.SELECTED = True
             return link
 
 def create_body(n, pos=(500,80), size=15):
     body = []
 
-    head_pos = randrange(20, sett.WIDTH - 20), randrange(80, 120)
+    head_pos = randrange(20, sett.WIDTH - 20), randrange(80, 120) + 300
     w, h = size, size
     type = 'body'
 
@@ -412,6 +420,17 @@ def create_body(n, pos=(500,80), size=15):
     body[-1].type = 'tail'
 
     return body
+
+def create_bodies(n):
+    all_bodies = []
+
+    for i in range(n):
+        length = randrange(20, 33)
+        new_body = create_body(length, size=3)
+
+        all_bodies.append(new_body)
+
+    return all_bodies
 
 
 def create_field(n):

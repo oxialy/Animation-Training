@@ -66,8 +66,10 @@ def dim_color(fields):
 colA = get_color_range(1.8, 4, 1/110)
 colB = get_color_range(10, 3, 2)
 
-animated_tiles = []
 
+GRAVITY_INTENSITY = 0.02
+
+animated_tiles = []
 
 nearest_links = create_links(7)
 

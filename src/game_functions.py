@@ -23,7 +23,7 @@ class Link:
 
         self.vel = Vector2(0, 0)
 
-        self.deceleration = 0.91
+        self.deceleration = 0.90
         self.max_vel = 2
 
         self.col = colors['green2']
@@ -101,7 +101,9 @@ class Link:
 
     def move(self):
         self.pos += self.vel
-        if self.right_link:
+        if self.type == 'body':
+            self.angle = get_angle(self.left_link.pos, self.pos)
+        elif self.type == 'head' and False:
             self.angle = get_angle(self.pos, self.right_link.pos)
 
     def decelerate(self):
@@ -138,7 +140,7 @@ class Link:
             if self.type == 'body':
                 B = get_average_point(self.left_link.pos, self.right_link.pos)
                 rad = 0
-                force_factor = 30
+                force_factor = self.size[0] * 1
             elif self.type == 'tail':
                 B = self.left_link.pos
                 rad = self.size[0]
@@ -154,13 +156,14 @@ class Link:
                 print(self.count, force, self)
 
     def apply_angular_force(self):
-        if self.type in ['body', 'tail']:
+        if self.type in ['tail']:
             left = self.left_link
             A = self.pos
             B = get_point_from_angle(self.left_link.pos, self.left_link.angle, self.size[0])
             rad = 0
+            force_factor = self.size[0] * 2
 
-            force = get_force(A, B, rad, 40)
+            force = get_force(A, B, rad, force_factor)
 
             self.vel += force
 
@@ -371,7 +374,7 @@ def check_selected(links, pos):
 def create_body(n, pos=(500,80), size=15):
     body = []
 
-    head_pos = pos
+    head_pos = randrange(20, sett.WIDTH - 20), randrange(80, 120)
     w, h = size, size
     type = 'body'
 

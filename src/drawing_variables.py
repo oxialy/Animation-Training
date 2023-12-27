@@ -27,8 +27,6 @@ colors = {
 
 bg_color = '#011320'
 
-#bg_color = '#010111'
-
 
 bar_1_pos = 100, 30
 bar_1 = pygame.Surface((250, 25))

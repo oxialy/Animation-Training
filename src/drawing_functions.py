@@ -21,8 +21,12 @@ def draw_test(win, body):
 
     f = gv.field
 
-    write_text(win, gv.GRAVITY_INTENSITY, (80,20))
+    write_text(win, round(gv.GRAVITY_INTENSITY, 2), (33,40), sett.FONT15, colors['cyan1'])
     write_text(win, gv.pos, (sett.WIDTH - 80, 20), sett.FONT15)
+
+    pygame.draw.circle(win, colors['darkblue1'], (47,300), 10, 1)
+    if gv.TOGGLE_FIELD:
+        pygame.draw.circle(win, colors['lightblue1'], (47,300), 8)
 
     write_text(win, len(f.field), (80, 520), sett.FONT15)
 

@@ -1,9 +1,13 @@
 from src import game_functions as GF
 from src import game_variables as GV
+#from src import link
+#from src import field
 
 from src import settings as sett
 from src.settings import WIDTH, HEIGHT, clock, FPS
 from src.game_variables import body, nearest_links
+from src.link import toggle_angle, check_selected
+from src.field import toggle_field, update_fields, toggle_show_field
 
 from src.drawing_functions import draw_screen
 
@@ -28,7 +32,8 @@ def main():
     selection = None
     run_main = True
 
-    GF.toggle_field(GV.all_winds)
+    toggle_field(GV.all_winds)
+    GV.TOGGLE_FIELD = not GV.TOGGLE_FIELD
 
     pygame.time.wait(200)
 
@@ -46,13 +51,17 @@ def main():
                     run_main = False
 
                 if event.key == K_a:
-                    GF.toggle_angle(GV.all_links)
+                    toggle_angle(GV.all_links)
 
                 if event.key == K_g:
-                    invert_gravity(GV.grass_field)
+                    invert_gravity(GV.grass_field + [GV.body])
+
+                if event.key == K_h:
+                    toggle_show_field(GV.all_winds)
 
                 if event.key == K_SPACE:
-                    GF.toggle_field(GV.all_winds)
+                    toggle_field(GV.all_winds)
+                    GV.TOGGLE_FIELD = not GV.TOGGLE_FIELD
 
 
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -60,7 +69,7 @@ def main():
                 if selection:
                     selection.SELECTED = False
 
-                GV.selection = selection = GF.check_selected(GV.all_links, GV.pos)
+                GV.selection = selection = check_selected(GV.all_links, GV.pos)
 
                 if selection:
                     selection.SELECTED = True
@@ -76,10 +85,7 @@ def main():
                 #selection.vel += GV.cursor.force
 
                 pygame.draw.rect(WIN, 'grey', (20,20, 20,20))
-        else:
-            if selection:
-                GV.cursor.shorten()
-                GV.cursor.set_force()
+
 
         keys = pygame.key.get_pressed()
 
@@ -95,13 +101,16 @@ def main():
         elif keys[K_RIGHT]:
             GV.GRAVITY_INTENSITY = -0.22
 
-        if GV.TOGGLE_FIELD:
-            GV.field.move_all(GV.WALLS)
-            GF.update_fields(GV.fields, GV.WALLS)
 
         if selection:
             selection.vel += GV.cursor.force
 
+        GV.cursor.shorten()
+        GV.cursor.set_force()
+
+
+        GV.field.move_all(GV.WALLS)
+        update_fields(GV.fields, GV.WALLS)
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)
         GF.update_all(GV.body)

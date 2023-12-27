@@ -43,12 +43,13 @@ class Wind:
         self.rad = rad
 
         self.vel = vel
-        self.vel2 = Vector2(2, 0)
+        self.vel2 = Vector2(1, 0)
 
         self.force = Vector2(force)
         self.col = col
 
         self.active = True
+        self.SHOW = True
 
         self.active_attr = {
             'col': col,
@@ -56,7 +57,7 @@ class Wind:
         }
         self.inactive_attr = {
             'col': colors['blue2'],
-            'vel': Vector2(2, 0)
+            'vel': Vector2(1, 0)
         }
 
 
@@ -65,7 +66,8 @@ class Wind:
 
 
     def draw(self, win):
-        pygame.draw.circle(win, self.col, self.pos, self.rad, 1)
+        if self.SHOW:
+            pygame.draw.circle(win, self.col, self.pos, self.rad, 1)
 
 
     def move(self):
@@ -101,8 +103,22 @@ class Wind:
 
 
 
+def update_fields(fields, boundaries):
+    for field in fields:
+        field.move_all(boundaries)
 
+def toggle_field(winds):
+    for wind in winds:
+        wind.active = not wind.active
 
+        if wind.active:
+            wind.activate()
+        else:
+            wind.deactivate()
+
+def toggle_show_field(winds):
+    for wind in winds:
+        wind.SHOW = not wind.SHOW
 
 
 

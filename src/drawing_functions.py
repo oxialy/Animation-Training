@@ -3,10 +3,14 @@ from src import settings as sett
 from src import game_variables as gv
 from src import drawing_variables as dv
 
+from src.settings import WIDTH, HEIGHT
+from src. settings import FONT15, FONT20, FONT12, FONT25, FONT30
 from .drawing_variables import bg_color, colors
 
 import pygame
 import random
+
+from pygame import Vector2
 from random import randrange, choice
 
 
@@ -21,29 +25,38 @@ def draw_test(win, body):
 
     f = gv.field
 
-    write_text(win, gv.pos, (sett.WIDTH - 80, 20), sett.FONT15)
+    write_text(win, round(gv.GRAVITY_INTENSITY, 2), (33,40), FONT15, colors['cyan1'])
+    write_text(win, gv.pos, (WIDTH - 80, 20), FONT15)
 
-    write_text(win, len(f.field), (80, 520), sett.FONT15)
+    indic_pos = (WIDTH - 28, HEIGHT - 28)
+    pygame.draw.circle(win, colors['darkblue1'], indic_pos, 8, 3)
+    if gv.TOGGLE_FIELD:
+        pygame.draw.circle(win, colors['lightblue1'], indic_pos, 5)
+
+    write_text(win, len(f.field), (80, 520), FONT15)
 
     f = gv.f1.field
     w = sorted(f, key=lambda wind: wind.force[0], reverse=True)[0]
 
-    write_text(win, w.force, (30, 520), sett.FONT15)
+    write_text(win, w.force, (30, 520), FONT15)
 
     for i, link in enumerate(body):
-        write_text(win, link.type, (630, 80 + i * 13), sett.FONT12, colors['darkgrey1'])
+        write_text(win, link.type, (630, 80 + i * 13), FONT12, colors['darkgrey1'])
 
 
 def draw_screen(win):
     win.fill(bg_color)
 
+    win.blit(dv.bar_1, dv.bar_1_pos)
+    dv.bar_1.fill(bg_color)
+
+
     gv.field.draw(win)
+
     draw_elem(win, gv.fields)
 
-    '''draw_elem(win, gv.nearest_links)
     draw_elem(win, gv.body)
-    draw_elem(win, gv.body2)
-    draw_all_bodies(win, gv.grass_field)'''
+
     draw_elem(win, gv.all_links)
 
     if gv.DRAWLINE:
@@ -52,6 +65,7 @@ def draw_screen(win):
     gv.cursor.draw(win)
 
     draw_test(win, gv.body)
+    dv.gravity_cursor.draw(dv.bar_1)
 
     pygame.draw.circle(win, colors['grey1'], (600, 527), 3)
     pygame.draw.circle(win, colors['grey1'], (600, 557), 3)
@@ -65,6 +79,7 @@ def draw_screen(win):
             sel.draw_left(win)
         if sel.right_link:
             sel.draw_right(win)
+
 
 
 def draw_tiles(win, tiles):

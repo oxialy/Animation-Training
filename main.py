@@ -63,13 +63,13 @@ def main():
                     selection.selected = True
                     GV.cursor.set_pos(selection.pos)
 
-        GV.field.move_all(GV.WALLS)
-        GF.update_fields(GV.fields, GV.WALLS)
+        #GV.field.move_all(GV.WALLS)
+        #GF.update_fields(GV.fields, GV.WALLS)
 
 
         GF.update_all_parts(GV.nearest_links, GV.pos, GV.colA, GV.colB)
         GF.update_all(GV.body)
-        GF.update_all(GV.all_links, GV.fields)
+        GF.update_all(GV.all_links)
 
         GV.nearest_links = GF.sort_elems(GV.nearest_links)
 

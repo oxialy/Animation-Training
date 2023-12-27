@@ -19,9 +19,8 @@ colors = {
     'cyan1': '#018090'
 }
 
-bg_color = '#151515'
+bg_color = '#000825'
 
-bg_color = '#002035'
 
 
 

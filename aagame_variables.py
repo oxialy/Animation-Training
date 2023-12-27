@@ -1,7 +1,6 @@
 import random
 
 from src import game_functions as GF
-from src import link
 from src import settings as sett
 
 
@@ -21,7 +20,7 @@ def create_links(n):
         angle = 0
         type = 'body'
 
-        new_link = link.Link((x,y),(w,h), angle, type, i)
+        new_link = GF.Link((x,y),(w,h), angle, type, i)
 
         links.append(new_link)
 
@@ -68,7 +67,7 @@ colA = get_color_range(1.8, 4, 1/110)
 colB = get_color_range(10, 3, 2)
 
 
-GRAVITY_INTENSITY = 0.03
+GRAVITY_INTENSITY = 0.02
 
 animated_tiles = []
 
@@ -77,16 +76,19 @@ nearest_links = create_links(7)
 all_links = []
 all_winds = []
 
-body = link.create_body(sett.BODY_LENGTH, (500, 470), 5)
+body = GF.create_body(sett.BODY_LENGTH)
+body2 = GF.create_body(sett.BODY_LENGTH + 0, (170, 110), 10)
+body3 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body4 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body5 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
+body6 = GF.create_body(sett.BODY_LENGTH + 10, (170, 110), 10)
 
-grass_field = link.create_bodies(n=2, length=10, size=8)
-
-all_links = unpack_bodies(grass_field + [body])
+grass_field = [body3, body4, body5, body6]
+all_links = unpack_bodies(grass_field + [body, body2])
 
 cursor = GF.Cursor()
 
-
-FIELD_LENGTH = 30
+FIELD_LENGTH = 70
 
 field = GF.create_field(FIELD_LENGTH)
 f1 = GF.create_field(FIELD_LENGTH)
@@ -100,7 +102,7 @@ f8 = GF.create_field(FIELD_LENGTH)
 f9 = GF.create_field(FIELD_LENGTH)
 f10 = GF.create_field(FIELD_LENGTH)
 
-fields = [field, f1, f2, f3]
+fields = [f1, f2, f3, field]
 all_winds = unpack_fields(fields)
 
 

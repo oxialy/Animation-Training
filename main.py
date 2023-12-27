@@ -93,16 +93,19 @@ def main():
 
         if keys[K_UP]:
             GV.GRAVITY_INTENSITY += 0.01
-
+            DV.gravity_cursor.update_pos(GV.GRAVITY_INTENSITY)
 
         elif keys[K_DOWN]:
             GV.GRAVITY_INTENSITY -= 0.01
+            DV.gravity_cursor.update_pos(GV.GRAVITY_INTENSITY)
 
         elif keys[K_LEFT]:
             GV.GRAVITY_INTENSITY = 0.02
+            DV.gravity_cursor.update_pos(GV.GRAVITY_INTENSITY)
 
         elif keys[K_RIGHT]:
             GV.GRAVITY_INTENSITY = -0.17
+            DV.gravity_cursor.update_pos(GV.GRAVITY_INTENSITY)
 
 
         if selection:

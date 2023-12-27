@@ -4,12 +4,12 @@ import pygame
 
 
 class Cursor:
-    def __init__(self, pos, cols, n, interval, min_max):
+    def __init__(self, pos, colors, n, interval, min_max):
         self.bar_pos = pos
-        self.h = 15
+        self.h = 11
 
-        self.col = cols[0]
-        self.col2 = cols[1]
+        self.col = colors[0]
+        self.col2 = colors[1]
 
         self.number_of_graduations = n
         self.interval_size = interval
@@ -42,7 +42,7 @@ class Cursor:
             A = pos_x, pos_y
             B = pos_x, pos_y + self.h
 
-            pygame.draw.line(win, self.col, A, B, 2)
+            pygame.draw.line(win, self.col, A, B, 1)
 
     def draw_cursor(self, win):
         x, y = self.cursor_pos, 0
@@ -53,11 +53,8 @@ class Cursor:
         pygame.draw.line(win, self.col2, A, B, 3)
 
     def update_pos(self, val):
-        self.val = val
-        range_of_value = self.max - self.min
         value_interval = (self.max - self.min) / self.number_of_graduations
 
-        x = round(self.interval_size * (val + self.min) / value_interval)
-        y = 0
+        x = round(self.interval_size * (val - self.min) / value_interval)
 
-        self.cursor_pos = x, y
+        self.cursor_pos = x

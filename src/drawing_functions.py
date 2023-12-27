@@ -46,7 +46,10 @@ def draw_test(win, body):
 
 def draw_screen(win):
     win.fill(bg_color)
+
     win.blit(dv.bar_1, dv.bar_1_pos)
+    dv.bar_1.fill(bg_color)
+
 
     gv.field.draw(win)
 

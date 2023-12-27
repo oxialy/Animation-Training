@@ -32,9 +32,10 @@ bg_color = '#011320'
 
 bar_1_pos = 100, 30
 bar_1 = pygame.Surface((250, 25))
+bar_1_bg_color = bg_color
 
 col1 = (colors['grey1'], colors['orange1'])
-gravity_cursor = Cursor((0,0), col1, 40, 7, (-2, 2))
+gravity_cursor = Cursor((0,0), col1, 60, 7, (-0.3, 0.3))
 
 
 

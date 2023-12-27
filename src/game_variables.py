@@ -68,7 +68,7 @@ colA = get_color_range(1.8, 4, 1/110)
 colB = get_color_range(10, 3, 2)
 
 
-GRAVITY_INTENSITY = 0.02
+GRAVITY_INTENSITY = 0.03
 
 animated_tiles = []
 

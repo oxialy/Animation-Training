@@ -10,7 +10,7 @@ colors = {
     'blue1': '#102080',
     'blue2': '#1828A0',
     'lightblue1': '#4040B3',
-    'darkblue1': '#081325',
+    'darkblue1': '#08263c',
     'seagreen1': '#106040',
     'orange1': '#806020',
     'lightgrey1': '#aaaaaa',

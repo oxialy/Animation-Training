@@ -19,8 +19,8 @@ FONT30 = pygame.font.SysFont('arial', 30)
 FONT35 = pygame.font.SysFont('arial', 35)
 FONT40 = pygame.font.SysFont('arial', 40)
 
-
-BODY_LENGTH = 27
+BODY_POS = 450, 280
+BODY_LENGTH = 20
 LINK_SIZE = 15
 FORCE_FACTOR = 100
 

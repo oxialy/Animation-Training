@@ -133,7 +133,7 @@ class Link:
             elif self.type == 'tail':
                 B = self.left_link.pos
                 rad = self.size[0]
-                force_factor = 40
+                force_factor = 80
 
             force = get_force(A, B, rad, force_factor)
 

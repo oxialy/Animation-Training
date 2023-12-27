@@ -1,3 +1,5 @@
+from src import drawing_variables as DV
+
 from src import game_functions as GF
 from src import game_variables as GV
 #from src import link
@@ -92,6 +94,7 @@ def main():
         if keys[K_UP]:
             GV.GRAVITY_INTENSITY += 0.01
 
+
         elif keys[K_DOWN]:
             GV.GRAVITY_INTENSITY -= 0.01
 
@@ -99,7 +102,7 @@ def main():
             GV.GRAVITY_INTENSITY = 0.02
 
         elif keys[K_RIGHT]:
-            GV.GRAVITY_INTENSITY = -0.22
+            GV.GRAVITY_INTENSITY = -0.17
 
 
         if selection:

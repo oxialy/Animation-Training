@@ -1,4 +1,5 @@
 from src import settings as sett
+from src.cursor import Cursor
 
 from .settings import WIDTH, HEIGHT
 
@@ -24,11 +25,16 @@ colors = {
     'green2': '#186540'
 }
 
-#bg_color = '#151515'
+bg_color = '#011320'
 
-bg_color = '#101625'
+#bg_color = '#010111'
 
 
+bar_1_pos = 100, 30
+bar_1 = pygame.Surface((250, 25))
+
+col1 = (colors['grey1'], colors['orange1'])
+gravity_cursor = Cursor((0,0), col1, 40, 7, (-2, 2))
 
 
 

@@ -9,6 +9,8 @@ from .drawing_variables import bg_color, colors
 
 import pygame
 import random
+
+from pygame import Vector2
 from random import randrange, choice
 
 
@@ -44,8 +46,10 @@ def draw_test(win, body):
 
 def draw_screen(win):
     win.fill(bg_color)
+    win.blit(dv.bar_1, dv.bar_1_pos)
 
     gv.field.draw(win)
+
     draw_elem(win, gv.fields)
 
     draw_elem(win, gv.body)
@@ -58,6 +62,7 @@ def draw_screen(win):
     gv.cursor.draw(win)
 
     draw_test(win, gv.body)
+    dv.gravity_cursor.draw(dv.bar_1)
 
     pygame.draw.circle(win, colors['grey1'], (600, 527), 3)
     pygame.draw.circle(win, colors['grey1'], (600, 557), 3)
@@ -71,6 +76,7 @@ def draw_screen(win):
             sel.draw_left(win)
         if sel.right_link:
             sel.draw_right(win)
+
 
 
 def draw_tiles(win, tiles):

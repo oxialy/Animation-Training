@@ -110,6 +110,8 @@ class Link:
             self.angle = get_angle(self.left_link.pos, self.pos)
         elif self.type == 'head' and False:
             self.angle = get_angle(self.pos, self.right_link.pos)
+        elif self.type == 'tail':
+            self.angle = get_angle(self.left_link.pos, self.pos)
 
     def decelerate(self):
         self.vel *= self.deceleration

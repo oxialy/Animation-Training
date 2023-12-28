@@ -271,7 +271,7 @@ def create_bodies(n, length, size=10):
     all_bodies = []
 
     for i in range(n):
-        l = randrange(length, length + 6)
+        l = randrange(length, length + 3)
         new_body = create_body(l, size=size)
 
         all_bodies.append(new_body)

@@ -79,7 +79,7 @@ all_winds = []
 
 body = link.create_body(sett.BODY_LENGTH, (500, 470), 5)
 
-grass_field = link.create_bodies(n=2, length=10, size=8)
+grass_field = link.create_bodies(n=25, length=3, size=8)
 
 all_links = unpack_bodies(grass_field + [body])
 
@@ -100,7 +100,7 @@ f8 = GF.create_field(FIELD_LENGTH)
 f9 = GF.create_field(FIELD_LENGTH)
 f10 = GF.create_field(FIELD_LENGTH)
 
-fields = [field, f1, f2, f3]
+fields = [field, f1, f2, f3, f4, f5]
 all_winds = unpack_fields(fields)
 
 

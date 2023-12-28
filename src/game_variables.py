@@ -76,7 +76,7 @@ nearest_links = create_links(7)
 all_links = []
 all_winds = []
 
-body = GF.create_body(sett.BODY_LENGTH, (500, 470), 20)
+body = GF.create_body(sett.BODY_LENGTH, (500, 470), 7)
 
 grass_field = GF.create_bodies(10)
 

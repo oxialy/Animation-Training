@@ -59,8 +59,6 @@ def main():
 
                 GV.selection = selection = GF.check_selected(GV.all_links, GV.pos)
 
-                if not selection:
-                    selection = GF.check_selected(GV.body2, GV.pos)
 
                 if selection:
                     selection.SELECTED = True
